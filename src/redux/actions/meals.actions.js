@@ -5,7 +5,6 @@ const createMeal = (option) => async (dispatch) => {
   try {
     dispatch({ type: types.CREATE_REQUEST });
     const res = await api.get(`/json/v1/1/search.php?s=${option}`);
-    console.log(res);
     dispatch({
       type: types.CREATE_SUCCESS,
       payload: {

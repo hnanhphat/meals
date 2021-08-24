@@ -20,6 +20,7 @@ const HomePage = ({ t }) => {
   const [currentName, setCurrentName] = useState("");
   const [currentCount, setCurrentCount] = useState(0);
   const [currentInput, setCurrentInput] = useState("");
+  const [firstStep, setFirstStep] = useState(true);
 
   // CREATE
   const [showCreate, setShowCreate] = useState(false);
@@ -27,6 +28,7 @@ const HomePage = ({ t }) => {
   const createMeal = () => {
     dispatch(mealsActions.createMeal(currentInput));
     setShowCreate(false);
+    setFirstStep(true);
   };
 
   // UPDATE
@@ -35,6 +37,7 @@ const HomePage = ({ t }) => {
   const updateMeal = () => {
     dispatch(mealsActions.updateMeal(currentID, currentInput));
     setShowUpdate(false);
+    setFirstStep(true);
   };
 
   // DELETE
@@ -83,6 +86,7 @@ const HomePage = ({ t }) => {
                       onClick={() => {
                         setShowUpdate(true);
                         setCurrentID(meal.id);
+                        setCurrentName(meal.name);
                         setCurrentInput(meal.name);
                         setCurrentCount(meal.count);
                       }}
@@ -114,7 +118,14 @@ const HomePage = ({ t }) => {
       </Container>
 
       {/* CREATE */}
-      <Modal centered show={showCreate} onHide={() => setShowCreate(false)}>
+      <Modal
+        centered
+        show={showCreate}
+        onHide={() => {
+          setShowCreate(false);
+          setFirstStep(true);
+        }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>{t("Add New")}</Modal.Title>
         </Modal.Header>
@@ -128,20 +139,37 @@ const HomePage = ({ t }) => {
           >
             <Form.Label>{t("Input the meal name will count")}</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder={t("Meal Name")}
-              onChange={(e) => setCurrentInput(e.target.value)}
+              onChange={(e) => {
+                setCurrentInput(e.target.value);
+                setFirstStep(false);
+              }}
+              isInvalid={currentInput || firstStep ? false : true}
             />
+            <Form.Control.Feedback type="invalid">
+              {t("The meal's name cannot be empty!")}
+            </Form.Control.Feedback>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={createMeal}>{t("Add")}</Button>
+          <Button onClick={createMeal} disabled={currentInput ? false : true}>
+            {t("Add")}
+          </Button>
         </Modal.Footer>
       </Modal>
 
       {/* UPDATE */}
-      <Modal centered show={showUpdate} onHide={() => setShowUpdate(false)}>
+      <Modal
+        centered
+        show={showUpdate}
+        onHide={() => {
+          setShowUpdate(false);
+          setFirstStep(true);
+        }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>{t("Edit Meal")}</Modal.Title>
         </Modal.Header>
@@ -154,19 +182,40 @@ const HomePage = ({ t }) => {
             }}
           >
             <Form.Control
+              required
               type="text"
               placeholder={t("Meal Name")}
-              onChange={(e) => setCurrentInput(e.target.value)}
+              onChange={(e) => {
+                setCurrentInput(e.target.value);
+                setFirstStep(false);
+              }}
               value={currentInput}
+              isInvalid={
+                (currentInput && currentInput !== currentName) || firstStep
+                  ? false
+                  : true
+              }
             />
             <Form.Text>
               {t("The count is")} {currentCount}
             </Form.Text>
+            <Form.Control.Feedback type="invalid">
+              {t(
+                "The meal's name cannot be empty or the same as the previous one!"
+              )}
+            </Form.Control.Feedback>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button onClick={updateMeal}>{t("Update")}</Button>
+          <Button
+            onClick={updateMeal}
+            disabled={
+              currentInput && currentInput !== currentName ? false : true
+            }
+          >
+            {t("Update")}
+          </Button>
         </Modal.Footer>
       </Modal>
 

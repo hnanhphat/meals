@@ -16,5 +16,7 @@
   "Are you want to delete": "Are you want to delete",
   "with the count is": "with the count is",
   "Click 'Add New' to create new dishes!": "Click 'Add New' to create new dishes!",
+  "The meal's name cannot be empty!": "The meal's name cannot be empty!",
+  "The meal's name cannot be empty or the same as the previous one!": "The meal's name cannot be empty or the same as the previous one!",
   "Meals developed by": "Meals developed by"
 }

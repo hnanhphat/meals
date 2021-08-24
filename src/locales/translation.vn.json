@@ -16,5 +16,7 @@
   "Are you want to delete": "Bạn có muốn xoá",
   "with the count is": "với số lượng là",
   "Click 'Add New' to create new dishes!": "Nhấn 'Thêm Mới' để thêm món ăn mới",
+  "The meal's name cannot be empty!": "Tên món ăn không được để trống!",
+  "The meal's name cannot be empty or the same as the previous one!": "Tên món ăn không được để trống hoặc giống với tên ban đầu!",
   "Meals developed by": "Meals thực hiện bởi"
 }
